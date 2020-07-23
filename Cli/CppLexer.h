@@ -15,7 +15,7 @@ value struct CppLexer
         TokenNodeType^ get();
     }
 
-    CppLexer(StringBuffer^ buffer);
+    CppLexer(wstring_view buffer);
 
 private:
     CppLexerGenerated myInner;

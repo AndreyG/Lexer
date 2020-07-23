@@ -25,13 +25,15 @@ value struct TextRange
 
 using System::String;
 
-ref class StringBuffer
+value struct wstring_view
 {
-    initonly String^ myText;
+    initonly wchar_t const * myText;
+    initonly int myLength;
 
 public:
-    StringBuffer(String^ text)
+    wstring_view(wchar_t const * text, int length)
         : myText(text)
+        , myLength(length)
     {}
 
     property wchar_t default[int]
@@ -41,23 +43,23 @@ public:
 
     property int Length
     {
-        int get() { return myText->Length; }
+        int get() { return myLength; }
     }
 
-    String^ GetText(TextRange range)
+    wstring_view GetText(TextRange range)
     {
-        return myText->Substring(range.StartOffset, range.Length);
+        return wstring_view { myText + range.StartOffset, range.Length };
     }
 };
 
-inline bool CompareBufferText(StringBuffer^ buffer, TextRange range, String^ str)
+inline bool CompareBufferText(wstring_view buffer, TextRange range, wstring_view str)
 {
-    int len = str->Length;
+    int len = str.Length;
     if (len != range.Length)
         return false;
 
     int pos = range.StartOffset;
-    if (pos + len > buffer->Length)
+    if (pos + len > buffer.Length)
         return false;
 
     for (int j = 0; j < len; j++, pos++)

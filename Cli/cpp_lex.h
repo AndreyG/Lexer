@@ -34,14 +34,14 @@ public:
         int start = yy_buffer_index;
         while(yy_buffer_index < yy_eof_pos && yy_buffer[yy_buffer_index] != '(')
             yy_buffer_index ++;
-        String^ delimiter = yy_buffer->GetText(TextRange(start, yy_buffer_index));
+        auto delimiter = yy_buffer.GetText(TextRange(start, yy_buffer_index));
         while(yy_buffer_index < yy_eof_pos)
         {
             while(yy_buffer_index < yy_eof_pos && yy_buffer[yy_buffer_index] != ')')
                 yy_buffer_index ++;
-            if (CompareBufferText(yy_buffer, TextRange::FromLength(yy_buffer_index + 1, delimiter->Length), delimiter))
+            if (CompareBufferText(yy_buffer, TextRange::FromLength(yy_buffer_index + 1, delimiter.Length), delimiter))
             {
-                yy_buffer_index = yy_buffer_index + 1 + delimiter->Length;
+                yy_buffer_index = yy_buffer_index + 1 + delimiter.Length;
                 if (yy_buffer_index < yy_eof_pos && yy_buffer[yy_buffer_index] == '"')
                 {
                     yy_buffer_index ++;
@@ -85,14 +85,14 @@ private:
     int yy_buffer_index;
     int yy_buffer_start;
     int yy_buffer_end;
-    StringBuffer^ yy_buffer; // external resource;
+    wstring_view yy_buffer; // external resource;
     int yy_eof_pos;
     int yyline;
     bool yy_at_bol;
     int yy_lexical_state;
 
 public:
-  CppLexerGenerated(StringBuffer^ buffer) : yy_last_was_cr(false), yy_buffer(buffer)
+  CppLexerGenerated(wstring_view buffer) : yy_last_was_cr(false), yy_buffer(buffer)
   {
   yy_buffer_index = 0;
   yy_buffer_start = 0;
@@ -103,11 +103,7 @@ public:
 
     currTokenType = nullptr;
     lexDirectives = true;
-  if (nullptr == buffer)
-    {
-        throw gcnew System::ApplicationException("Error: Bad lexer buffer.");
-    }
-  yy_eof_pos = yy_buffer->Length;
+  yy_eof_pos = yy_buffer.Length;
   }
 
 protected:
@@ -160,10 +156,6 @@ private: void yy_mark_end ()
 private: static bool yy_isnewline (wchar_t c)
   {
     return c == '\r' || c == '\n';
-  }
-internal: String^ yytext()
-  {
-  return  yy_buffer ->GetText(TextRange(yy_buffer_start, yy_buffer_end));
   }
 private: int yylength ()
   {

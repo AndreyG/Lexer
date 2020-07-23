@@ -3,13 +3,14 @@
 #include "CppLexer.h"
 
 #include <cstdlib>
+#include <vcclr.h>
 
 System::TimeSpan lex_file(String^ path)
 {
     auto content = System::IO::File::ReadAllText(path);
     auto stopwatch = System::Diagnostics::Stopwatch::StartNew();
-    auto buffer = gcnew StringBuffer(content);
-    CppLexer lexer(buffer);
+    pin_ptr<const wchar_t> buffer = PtrToStringChars(content);
+    CppLexer lexer(wstring_view(buffer, content->Length));
     for (int i = 0; i != 100; ++i)
     {
         for (lexer.Start(); lexer.TokenType; lexer.Advance())
@@ -21,7 +22,8 @@ System::TimeSpan lex_file(String^ path)
 
 void jit_lexer()
 {
-    auto lexer = gcnew CppLexer(gcnew StringBuffer("int"));
+    wchar_t buffer[] = L"int";
+    auto lexer = gcnew CppLexer(wstring_view(buffer, 3));
     lexer->Start();
     lexer->Advance();
 }

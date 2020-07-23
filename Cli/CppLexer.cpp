@@ -4,7 +4,7 @@
 
 void CppLexerGenerated::Start()
 {
-    Start(0, yy_buffer->Length, yy_lexical_state, 0);
+    Start(0, yy_buffer.Length, yy_lexical_state, 0);
 }
 
 void CppLexerGenerated::Start(int startOffset, int endOffset)
@@ -37,7 +37,7 @@ TokenNodeType^ CppLexerGenerated::TokenType::get()
 #define INNER_LEXER_TOKEN_LENGTH 20
 
 
-CppLexer::CppLexer(StringBuffer^ buffer)
+CppLexer::CppLexer(wstring_view buffer)
     : myInner(buffer)
 {}
 
