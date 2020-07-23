@@ -22,32 +22,14 @@ struct TextRange
     }
 };
 
-class StringBuffer
-{
-    std::wstring myText;
-
-public:
-    StringBuffer(std::wstring text)
-        : myText(std::move(text))
-    {}
-
-    wchar_t operator[](int i) const { return myText[i]; }
-    int length() const { return static_cast<int>(myText.length()); }
-
-    std::wstring GetText(TextRange range) const
-    {
-        return myText.substr(range.StartOffset, range.length());
-    }
-};
-
-inline bool CompareBufferText(StringBuffer const & buffer, TextRange range, std::wstring const & str)
+inline bool CompareBufferText(std::wstring_view buffer, TextRange range, std::wstring_view str)
 {
     int len = str.length();
     if (len != range.length())
         return false;
 
     int pos = range.StartOffset;
-    if (pos + len > buffer.length())
+    if (pos + len > static_cast<int>(buffer.length()))
         return false;
 
     for (int j = 0; j < len; j++, pos++)

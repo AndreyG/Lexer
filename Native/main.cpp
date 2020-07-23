@@ -22,8 +22,7 @@ hrclock::duration lex_file(std::filesystem::path const & path)
 {
     auto content = read_all_text(path);
     auto start = hrclock::now();
-    StringBuffer buffer(content);
-    CppLexer lexer(buffer);
+    CppLexer lexer(content);
     for (int i = 0; i != 100; ++i)
     {
         for (lexer.Start(); lexer.GetTokenType(); lexer.Advance())

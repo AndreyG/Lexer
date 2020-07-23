@@ -36,7 +36,7 @@ public:
         int start = yy_buffer_index;
         while(yy_buffer_index < yy_eof_pos && yy_buffer[yy_buffer_index] != '(')
             yy_buffer_index ++;
-        auto delimiter = yy_buffer.GetText(TextRange(start, yy_buffer_index));
+        auto delimiter = yy_buffer.substr(start, yy_buffer_index - start);
         while(yy_buffer_index < yy_eof_pos)
         {
             while(yy_buffer_index < yy_eof_pos && yy_buffer[yy_buffer_index] != ')')
@@ -86,14 +86,14 @@ private:
     int yy_buffer_index;
     int yy_buffer_start;
     int yy_buffer_end;
-    StringBuffer const & yy_buffer; // external resource;
+    std::wstring_view yy_buffer; // external resource;
     int yy_eof_pos;
     int yyline;
     bool yy_at_bol;
     int yy_lexical_state;
 
 public:
-  CppLexerGenerated(StringBuffer const & buffer) : yy_last_was_cr(false), yy_buffer(buffer)
+  CppLexerGenerated(std::wstring_view buffer) : yy_last_was_cr(false), yy_buffer(buffer)
   {
   yy_buffer_index = 0;
   yy_buffer_start = 0;
@@ -157,10 +157,6 @@ private: void yy_mark_end ()
 private: static bool yy_isnewline (wchar_t c)
   {
     return c == '\r' || c == '\n';
-  }
- std::wstring yytext()
-  {
-  return  yy_buffer.GetText(TextRange(yy_buffer_start, yy_buffer_end));
   }
 private: int yylength ()
   {
