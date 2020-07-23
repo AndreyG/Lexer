@@ -33,7 +33,7 @@ interface struct IBuffer
     String^ GetText(TextRange);
 };
 
-ref class StringBuffer : IBuffer
+ref class StringBuffer sealed : IBuffer
 {
     initonly String^ myText;
 
@@ -58,7 +58,7 @@ public:
     }
 };
 
-inline bool CompareBufferText(IBuffer^ buffer, TextRange range, String^ str)
+inline bool CompareBufferText(StringBuffer^ buffer, TextRange range, String^ str)
 {
     int len = str->Length;
     if (len != range.Length)

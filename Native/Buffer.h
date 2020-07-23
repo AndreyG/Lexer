@@ -32,7 +32,7 @@ struct IBuffer
     virtual ~IBuffer() = default;
 };
 
-class StringBuffer : public IBuffer
+class StringBuffer final : public IBuffer
 {
     std::wstring myText;
 
@@ -50,7 +50,7 @@ public:
     }
 };
 
-inline bool CompareBufferText(IBuffer const & buffer, TextRange range, std::wstring const & str)
+inline bool CompareBufferText(StringBuffer const & buffer, TextRange range, std::wstring const & str)
 {
     int len = str.length();
     if (len != range.length())

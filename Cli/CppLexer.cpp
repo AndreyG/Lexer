@@ -37,7 +37,7 @@ TokenNodeType^ CppLexerGenerated::TokenType::get()
 #define INNER_LEXER_TOKEN_LENGTH 20
 
 
-CppLexer::CppLexer(IBuffer^ buffer)
+CppLexer::CppLexer(StringBuffer^ buffer)
     : myInner(buffer)
 {}
 

@@ -10,7 +10,7 @@ struct CppLexer
 
     TokenNodeType* GetTokenType() const;
     
-    CppLexer(IBuffer const & buffer);
+    CppLexer(StringBuffer const & buffer);
 
 private:
     CppLexerGenerated myInner;

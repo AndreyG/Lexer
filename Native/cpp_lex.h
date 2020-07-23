@@ -86,14 +86,14 @@ private:
     int yy_buffer_index;
     int yy_buffer_start;
     int yy_buffer_end;
-    IBuffer const & yy_buffer; // external resource;
+    StringBuffer const & yy_buffer; // external resource;
     int yy_eof_pos;
     int yyline;
     bool yy_at_bol;
     int yy_lexical_state;
 
 public:
-  CppLexerGenerated(IBuffer const & buffer) : yy_last_was_cr(false), yy_buffer(buffer)
+  CppLexerGenerated(StringBuffer const & buffer) : yy_last_was_cr(false), yy_buffer(buffer)
   {
   yy_buffer_index = 0;
   yy_buffer_start = 0;
