@@ -22,17 +22,7 @@ struct TextRange
     }
 };
 
-struct IBuffer
-{
-    virtual wchar_t operator[](int) const = 0;
-    virtual int length() const = 0;
-
-    virtual std::wstring GetText(TextRange) const = 0;
-
-    virtual ~IBuffer() = default;
-};
-
-class StringBuffer final : public IBuffer
+class StringBuffer
 {
     std::wstring myText;
 
